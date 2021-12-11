@@ -50,6 +50,7 @@ class HomeController extends Controller
             return $value < $z;
         });
 
+        // выбираем первое простое число, которое при делении e * d на z даёт остаток 1
         $e = $collectE->first(function ($value, $key) use ($d, $z) {
             return $value * $d % $z === 1;
         });
@@ -119,6 +120,7 @@ class HomeController extends Controller
         $d = $frd['d'];
         $m = $frd['M'];
 
+        // Разбиваем сообщение М
         $array = str_split($m, 1);
         $profile = 1;
         foreach ($array as $item)
@@ -126,6 +128,7 @@ class HomeController extends Controller
             $item = (int) $item;
             if ($item !== 0) {
                 $value = (int)$profile * $item;
+                // Если в результате произведения получается более 2 цифр, то отсекаем первую
                if (count(str_split($value))> 1) {
                    $profile = substr($value, 1);
                }else {
@@ -179,11 +182,77 @@ class HomeController extends Controller
 
     public function indexLab2()
     {
+        $a = 3;
+        $q = 47;
+        $xA = 8;
+        $xB = 10;
+        if ($xA < $q && $xB < $q) {
+            $yA = ($a ** $xA) % $q;
+            $yB = ($a ** $xB) % $q;
 
+            $kA = ($yB ** $xA) % $q;
+            $kB = ($yA ** $xB) % $q;
+
+            if ($kA === $kB) {
+                $result[] = ['type'   => 'success',
+                             'header' => 'Задание 1',
+                             'text'   =>
+                                 'Значение Ka совпало со значение Kb. ' . $kA . ' = ' . $kB];
+            } else {
+                $result[] = ['type'   => 'danger',
+                             'header' => 'Задание 1',
+                             'text'   =>
+                                 'Значение Ka = ' . $kA . ' не совпало со значение Kb = ' . $kB];
+            }
+        }
+        else{
+            $result[] = ['type'   => 'danger',
+                         'header' => 'Задание 1',
+                         'text'   => 'По условию значения должны удовлетворять условию Xa < q и Xb < q.
+                          Условие не выполнено. q = ' . $q .'; Xa = ' . $xA . '; Xb = ' . $xB];
+        }
+        return view('lab2.index')->with('result', $result);
     }
 
-    public function lab2(Request $request)
+    public function indexLab22()
     {
+        return view('lab2.index2');
+    }
 
+    public function lab22(Request $request)
+    {
+        $frd       = $request->all();
+        $validator = Validator::make($frd, [
+            'a' => 'required',
+            'q' => 'required',
+            'Xa' => 'required',
+            'Xb' => 'required',
+            'Xz' => 'required'
+        ])->validate();
+
+        $a = $frd['a'];
+        $q = $frd['q'];
+        $xA = $frd['Xa'];
+        $xB = $frd['Xb'];
+        $xZ = $frd['Xz'];
+
+        if ($xA < $q && $xB < $q && $xZ < $q) {
+            $yA = ($a ** $xA) % $q;
+            $yB = ($a ** $xB) % $q;
+            $yZ = ($a ** $xZ) % $q;
+
+            $kA = ($yZ ** $xA) % $q;
+            $kB = ($yZ ** $xB) % $q;
+
+            $result[] = ['type'   => 'success',
+                         'header' => 'Задание 2',
+                         'text'   => 'Ключ между пользователем А и мошенником: ' . $kA . '; ключ между пользователем B и мошенником: ' . $kB];
+        }else {
+            $result[] = ['type'   => 'danger',
+                         'header' => 'Задание 2',
+                         'text'   => 'По условию значения должны удовлетворять условию Xa < q, Xb < q, Xz < q.
+                          Условие не выполнено. q = ' . $q .'; Xa = ' . $xA . '; Xb = ' . $xB . '; Xz = ' . $xZ];
+        }
+        return view('lab2.index2')->with('result', $result);
     }
 }

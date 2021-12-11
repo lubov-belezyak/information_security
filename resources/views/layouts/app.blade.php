@@ -43,12 +43,15 @@
                             </ul>
                         </li>
 
-{{--                        <li class="nav-item">--}}
-{{--                            <a class="nav-link" href="{{route('lab1')}}">Лабораторная 1</a>--}}
-{{--                        </li>--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a class="nav-link" href="{{route('lab2')}}">Лабораторная 2</a>--}}
-{{--                        </li>--}}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Лабораторная 2
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{route('lab2')}}">Задание 1</a></li>
+                                <li><a class="dropdown-item" href="{{route('lab22')}}">Задание 2</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
